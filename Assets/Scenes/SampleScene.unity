@@ -461,8 +461,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1315278777}
-  - component: {fileID: 1315278776}
   - component: {fileID: 1315278778}
+  - component: {fileID: 1315278776}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -479,9 +479,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1315278775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb94b790626c7b45ab9b822d767617d, type: 3}
+  m_Script: {fileID: 11500000, guid: 21a10e99e3b37ad469727fb2268ff691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 4830485656185704668, guid: 20da1e31d8497f84ea438a9135821322, type: 3}
+  enemyCount: 0
 --- !u!4 &1315278777
 Transform:
   m_ObjectHideFlags: 0
@@ -505,11 +507,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1315278775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a10e99e3b37ad469727fb2268ff691, type: 3}
+  m_Script: {fileID: 11500000, guid: bbb94b790626c7b45ab9b822d767617d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 4830485656185704668, guid: 20da1e31d8497f84ea438a9135821322, type: 3}
-  spawnTimer: 10
 --- !u!1 &1530311710
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,47 +5,37 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemy;
-
-    private float maxSpawnTimer = 10f;
-    public float spawnTimer = 10f;
-    //public int enemyCount;
+    public int enemyCount;
 
     // Start is called before the first frame update
     void Start()
     {
-        Spawn();
-        Spawn();
-        Spawn();
+        enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (spawnTimer > 0)
-        {
-            spawnTimer -= Time.deltaTime;
-        }
+        enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
 
-        if (spawnTimer <= 0)
+        if (enemyCount == 0)
+        {
+            SpawnNewWave(3);
+        }
+    }
+
+    void SpawnNewWave(int enemyNumber)
+    {
+        for (int i = 0; i < 3; i++)
         {
             Spawn();
-            spawnTimer += maxSpawnTimer;
         }
     }
 
     void Spawn()
     {
-        //enemyCount++;
-        //Debug.Log("spawned");
-        //Debug.Log(enemyCount);
-
         float randX = Random.Range(-1.5f, 1.5f);
         float randY = Random.Range(1f, 2f);
         Instantiate(enemy, new Vector3(randX, randY), enemy.transform.rotation);
-    }
-
-    public void DecreaseTimer()
-    {
-        spawnTimer -= 4f;
     }
 }

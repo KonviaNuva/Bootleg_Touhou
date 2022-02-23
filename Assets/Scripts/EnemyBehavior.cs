@@ -43,10 +43,6 @@ public class EnemyBehavior : MonoBehaviour
             Destroy(collision.gameObject);
             if (health <= 0)
             {
-                //GameObject.Find("GameManager").GetComponent<EnemySpawner>().enemyCount--;
-                //Debug.Log("killed");
-                //Debug.Log(GameObject.Find("GameManager").GetComponent<EnemySpawner>().enemyCount);
-                GameObject.Find("GameManager").GetComponent<EnemySpawner>().DecreaseTimer();
                 Destroy(gameObject);
             }
             Renderer thisRenderer = GetComponent<Renderer>();
@@ -101,6 +97,8 @@ public class EnemyBehavior : MonoBehaviour
             }
             shootTimer += maxShootTimer;
         }
+
+        bullet.transform.rotation = Quaternion.identity;
     }
 
     void ShootOdd (float degree)
