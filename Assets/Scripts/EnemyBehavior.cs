@@ -12,6 +12,7 @@ public class EnemyBehavior : MonoBehaviour
     private float maxShootTimer = 2f;
     private float shootTimer = 2f;
     private GameManager gamemanager;
+    public double shootAngle;
 
     // Start is called before the first frame update
     void Start()
@@ -58,79 +59,106 @@ public class EnemyBehavior : MonoBehaviour
 
     void Shoot()
     {
-        Vector3 playerPosition = GameObject.Find("Player").transform.position;
-        Vector3 vectorToPlayer = playerPosition - (transform.position + Vector3.down * 0.25f);
-        var tan = vectorToPlayer.y / vectorToPlayer.x;
-        var degree = Math.Atan(tan) * 180 / Math.PI;
-        degree = Math.Abs(degree);
-        if ((vectorToPlayer.x >= 0) && (vectorToPlayer.y >= 0))
-        {
-            degree = 270 + degree;
-        }
-        else
-        if ((vectorToPlayer.x >= 0) && (vectorToPlayer.y <= 0))
-        {
-            degree = 270 - degree;
-        }
-        else
-        if ((vectorToPlayer.x <= 0) && (vectorToPlayer.y <= 0))
-        {
-            degree = 90 + degree;
-        }
-        else
-        if ((vectorToPlayer.x <= 0) && (vectorToPlayer.y >= 0))
-        {
-            degree = 90 - degree;
-        }
+        shootAngle = FindShootAngle();
+
+        int[] numbersArray = new int[] {5, 3, 2};
+        string[] methodsArray = new string[] {"ShootOdd", "ShootEven", "ShootAll" };
 
         if (shootTimer <= 0)
         {
-            float ran = UnityEngine.Random.Range(0, 10);
-
-            if (ran < 5)
-            {
-                ShootOdd((float)degree);
-            }
-            else
-            if (ran < 8)
-            {
-                ShootEven((float)degree);
-            }
-            else
-            {
-                ShootAll((float)degree);
-            }
+            RandomMethod(numbersArray, methodsArray);
             shootTimer += maxShootTimer;
         }
 
         bullet.transform.rotation = Quaternion.identity;
     }
 
-    void ShootOdd (float degree)
+    public void RandomMethod(int[] numberInput, string[] methodInput)
     {
-        bullet.transform.Rotate(new Vector3(0, 0, degree - 12));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 12));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 12));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 360 - degree - 12));
+        bool invoked = false;
+
+        for (int i = 1; i < numberInput.Length; i++)
+        {
+            numberInput[i] += numberInput[i - 1];
+        }
+
+        float rn = UnityEngine.Random.Range(0f, numberInput[numberInput.Length - 1]);
+
+        for (int i = numberInput.Length - 1; i > 0; i--)
+        {
+            if (invoked == true)
+            {
+                break;
+            }
+
+            if (rn > numberInput[i - 1])
+            {
+                Invoke(methodInput[i], 0);
+                invoked = true;
+            }
+        }
+
+        if (invoked == false)
+        {
+            Invoke(methodInput[0], 0);
+        }
     }
 
-    void ShootEven (float degree)
+    double FindShootAngle()
     {
-        bullet.transform.Rotate(new Vector3(0, 0, degree - 18));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 12));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 12));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 12));
-        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
-        bullet.transform.Rotate(new Vector3(0, 0, 360 - degree - 18));
+        Vector3 playerPosition = GameObject.Find("Player").transform.position;
+        Vector3 vectorToPlayer = playerPosition - (transform.position + Vector3.down * 0.25f);
+        var tan = vectorToPlayer.y / vectorToPlayer.x;
+        var angle = Math.Atan(tan) * 180 / Math.PI;
+        angle = Math.Abs(angle);
+        if ((vectorToPlayer.x >= 0) && (vectorToPlayer.y >= 0))
+        {
+            angle = 270 + angle;
+        }
+        else
+        if ((vectorToPlayer.x >= 0) && (vectorToPlayer.y <= 0))
+        {
+            angle = 270 - angle;
+        }
+        else
+        if ((vectorToPlayer.x <= 0) && (vectorToPlayer.y <= 0))
+        {
+            angle = 90 + angle;
+        }
+        else
+        if ((vectorToPlayer.x <= 0) && (vectorToPlayer.y >= 0))
+        {
+            angle = 90 - angle;
+        }
+
+        return angle;
     }
 
-    void ShootAll (float degree)
+    void ShootOdd ()
+    {
+        bullet.transform.Rotate(new Vector3(0, 0, (float)shootAngle - 12));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 12));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 12));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 360 - (float)shootAngle - 12));
+    }
+
+    void ShootEven ()
+    {
+        bullet.transform.Rotate(new Vector3(0, 0, (float)shootAngle - 18));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 12));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 12));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 12));
+        Instantiate(bullet, transform.position + Vector3.down * 0.25f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 360 - (float)shootAngle - 18));
+    }
+
+    void ShootAll ()
     {
         for (int i = 0; i < 30; i++)
         {

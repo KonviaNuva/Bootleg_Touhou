@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
         {
             waveCount++;
             score += (waveCount - 1) * 5 + 10;
-            SpawnNewWave(waveCount);
+            SpawnNewWave((int)(waveCount / 3) + 2);
             enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
         }
 
