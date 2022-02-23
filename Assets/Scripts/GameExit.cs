@@ -15,7 +15,12 @@ public class GameExit : MonoBehaviour
     {
         if (Input.GetKey("escape"))
         {
-            Application.Quit();
+            CloseGame();
         }
+    }
+
+    public void CloseGame()
+    {
+        Application.Quit();
     }
 }

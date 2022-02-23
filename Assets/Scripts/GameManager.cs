@@ -24,6 +24,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameIsOver == true)
+        {
+            FindObjectOfType<GameEnd>().ShowEndMenu();
+        }
+
         enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
         scoreText.text = "Score: " + score;
         if (gameIsOver == false)
