@@ -11,11 +11,12 @@ public class EnemyBehavior : MonoBehaviour
     public GameObject bullet;
     private float maxShootTimer = 2f;
     private float shootTimer = 2f;
+    private GameManager gamemanager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gamemanager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -31,7 +32,10 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         shootTimer -= Time.deltaTime;
-        Shoot();
+        if (gamemanager.gameIsOver == false)
+        {
+            Shoot();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -43,6 +47,7 @@ public class EnemyBehavior : MonoBehaviour
             Destroy(collision.gameObject);
             if (health <= 0)
             {
+                gamemanager.score += 10;
                 Destroy(gameObject);
             }
             Renderer thisRenderer = GetComponent<Renderer>();

@@ -16,11 +16,12 @@ public class HeroController : MonoBehaviour
     float focusedSpeed = 1.5f;
     private float redTime = 0f;
     private float maxRedTime = 0.3f;
+    private GameManager gamemanager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gamemanager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -106,14 +107,13 @@ public class HeroController : MonoBehaviour
             Destroy(collision.gameObject);
             if (health <= 0)
             {
+                gamemanager.gameIsOver = true;
                 Destroy(gameObject);
             }
 
             Renderer thisRenderer = GetComponent<Renderer>();
             thisRenderer.material.SetColor("_Color", Color.red);
             redTime = maxRedTime;
-
-            Debug.Log(health);
         }
     }
 }
