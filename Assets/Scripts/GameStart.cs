@@ -10,8 +10,13 @@ public class GameStart : MonoBehaviour
     public GameObject ui;
     public GameObject startMenu;
 
+    public AudioSource musicPlayer;
+    public AudioClip okSound;
+
     public void StartTheGame()
     {
+        musicPlayer.PlayOneShot(okSound);
+
         gameManager.SetActive(true);
         player.SetActive(true);
         ui.SetActive(true);

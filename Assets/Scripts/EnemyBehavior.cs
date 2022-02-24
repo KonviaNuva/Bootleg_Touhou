@@ -14,6 +14,20 @@ public class EnemyBehavior : MonoBehaviour
     private GameManager gamemanager;
     public double shootAngle;
 
+    public AudioSource audioPlayer;
+    public AudioClip enemyShoot;
+    public AudioClip enemyDeath;
+
+    void EnemyShoot()
+    {
+        audioPlayer.PlayOneShot(enemyShoot);
+    }
+
+    void EnemyDeath()
+    {
+        //audioPlayer.PlayOneShot(enemyDeath);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +62,7 @@ public class EnemyBehavior : MonoBehaviour
             Destroy(collision.gameObject);
             if (health <= 0)
             {
+                EnemyDeath();
                 gamemanager.score += 10;
                 Destroy(gameObject);
             }
@@ -66,6 +81,7 @@ public class EnemyBehavior : MonoBehaviour
 
         if (shootTimer <= 0)
         {
+            EnemyShoot();
             RandomMethod(numbersArray, methodsArray);
             shootTimer += maxShootTimer;
         }

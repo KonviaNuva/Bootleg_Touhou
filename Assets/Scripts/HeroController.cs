@@ -17,6 +17,9 @@ public class HeroController : MonoBehaviour
     private float redTime = 0f;
     private float maxRedTime = 0.3f;
     private GameManager gamemanager;
+    public AudioSource playerSoundPlayer;
+    public AudioClip shootSound;
+    public AudioClip deathSound;
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +95,7 @@ public class HeroController : MonoBehaviour
     {
         if ((Input.GetKey(KeyCode.Z)) && (shootTimer <= 0f))
         {
+            playerSoundPlayer.PlayOneShot(shootSound);
             Instantiate(bullet, transform.position + Vector3.up * 0.5f + Vector3.left * 0.03f, bullet.transform.rotation);
             Instantiate(bullet, transform.position + Vector3.up * 0.5f + Vector3.right * 0.03f, bullet.transform.rotation);
             shootTimer += maxShootTimer;
@@ -102,6 +106,7 @@ public class HeroController : MonoBehaviour
     {
         if (collision.tag == "EnemyBullet")
         {
+            playerSoundPlayer.PlayOneShot(deathSound);
             EnemyBulletBehavior enemyBulletScript = collision.GetComponent<EnemyBulletBehavior>();
             health -= enemyBulletScript.damage;
             Destroy(collision.gameObject);
