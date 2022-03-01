@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
         {
             hpText.text = "Player: " + FindObjectOfType<HeroController>().health;
         }
+        else
+        {
+            hpText.text = "Player: " + 0;
+        }
 
         if (enemyCount == 0)
         {
