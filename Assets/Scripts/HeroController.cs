@@ -52,14 +52,14 @@ public class HeroController : MonoBehaviour
                 break;
         }
 
-        isFocused = false;
-
         if (shootTimer >= 0)
         {
             shootTimer -= Time.deltaTime;
         }
 
         Shoot();
+
+        isFocused = false;
     }
 
     void MoveCharacter(float speed)
@@ -95,11 +95,34 @@ public class HeroController : MonoBehaviour
     {
         if ((Input.GetKey(KeyCode.Z)) && (shootTimer <= 0f))
         {
-            playerSoundPlayer.PlayOneShot(shootSound);
-            Instantiate(bullet, transform.position + Vector3.up * 0.5f + Vector3.left * 0.03f, bullet.transform.rotation);
-            Instantiate(bullet, transform.position + Vector3.up * 0.5f + Vector3.right * 0.03f, bullet.transform.rotation);
+            if (isFocused)
+            {
+                ShootFocused();
+            }
+            if (!isFocused)
+            {
+                ShootUnfocused();
+            }
             shootTimer += maxShootTimer;
+            bullet.transform.rotation = Quaternion.identity;
         }
+    }
+
+    void ShootFocused()
+    {
+        playerSoundPlayer.PlayOneShot(shootSound);
+        Instantiate(bullet, transform.position + Vector3.up * 0.5f + Vector3.left * 0.03f, bullet.transform.rotation);
+        Instantiate(bullet, transform.position + Vector3.up * 0.5f + Vector3.right * 0.03f, bullet.transform.rotation);
+    }
+
+    void ShootUnfocused()
+    {
+        playerSoundPlayer.PlayOneShot(shootSound);
+        Instantiate(bullet, transform.position + Vector3.up * 0.5f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 10));
+        Instantiate(bullet, transform.position + Vector3.up * 0.5f, bullet.transform.rotation);
+        bullet.transform.Rotate(new Vector3(0, 0, 340));
+        Instantiate(bullet, transform.position + Vector3.up * 0.5f, bullet.transform.rotation);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
