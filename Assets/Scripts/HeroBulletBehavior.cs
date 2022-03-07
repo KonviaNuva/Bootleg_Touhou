@@ -24,9 +24,9 @@ public class HeroBulletBehavior : MonoBehaviour
 
     void DestroyOutOfBounds()
     {
-        float maxRangeX = 8f;
-        float maxRangeY = 4.5f;
-        float extraSpace = 2f;
+        float maxRangeX = 1.5f;
+        float maxRangeY = 2.25f;
+        float extraSpace = 0.01f;
 
         maxRangeX += extraSpace;
         maxRangeY += extraSpace;
