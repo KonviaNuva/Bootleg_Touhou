@@ -64,6 +64,7 @@ public class EnemyBehavior : MonoBehaviour
             {
                 EnemyDeath();
                 gamemanager.score += 10;
+                gamemanager.CompareScore();
                 Destroy(gameObject);
             }
             Renderer thisRenderer = GetComponent<Renderer>();

@@ -17,6 +17,8 @@ public class GameStart : MonoBehaviour
     {
         musicPlayer.PlayOneShot(okSound);
 
+        DataManager.SetName();
+
         gameManager.SetActive(true);
         player.SetActive(true);
         ui.SetActive(true);

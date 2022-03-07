@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_Text hpText;
     public TMP_Text waveText;
+    public TMP_Text bestScoreText;
     public int score;
     public int waveCount;
     public bool gameIsOver = false;
@@ -29,21 +30,23 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<GameEnd>().ShowEndMenu();
         }
 
-        enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
         scoreText.text = "Score: " + score;
         if (gameIsOver == false)
         {
-            hpText.text = "Player: " + FindObjectOfType<HeroController>().health;
+            hpText.text = "Lives: " + FindObjectOfType<HeroController>().health;
         }
         else
         {
-            hpText.text = "Player: " + 0;
+            hpText.text = "Lives: " + 0;
         }
+        bestScoreText.text = DataManager.bestPlayerName + ": " + DataManager.bestScore;
 
+        enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
         if (enemyCount == 0)
         {
             waveCount++;
             score += (waveCount - 1) * 5 + 10;
+            CompareScore();
             SpawnNewWave((int)(waveCount / 3) + 2);
             enemyCount = FindObjectsOfType<EnemyBehavior>().Length;
         }
@@ -64,5 +67,14 @@ public class GameManager : MonoBehaviour
         float randX = Random.Range(-1.5f, 1.5f);
         float randY = Random.Range(1f, 2f);
         Instantiate(enemy, new Vector3(randX, randY), enemy.transform.rotation);
+    }
+
+    public void CompareScore()
+    {
+        if (score > DataManager.bestScore)
+        {
+            DataManager.bestScore = score;
+            DataManager.bestPlayerName = DataManager.playerName;
+        }
     }
 }

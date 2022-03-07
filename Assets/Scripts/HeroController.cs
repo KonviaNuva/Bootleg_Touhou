@@ -135,6 +135,9 @@ public class HeroController : MonoBehaviour
             Destroy(collision.gameObject);
             if (health <= 0)
             {
+                //умираем. значит тут и надо записать рекорды в файл.
+                DataManager.SaveBestScore();
+
                 gamemanager.gameIsOver = true;
                 Destroy(gameObject);
             }
