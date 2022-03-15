@@ -32,6 +32,7 @@ public class EnemyBehavior : MonoBehaviour
     void Start()
     {
         gamemanager = FindObjectOfType<GameManager>();
+        shootTimer += UnityEngine.Random.Range(-1f, 1f);
     }
 
     // Update is called once per frame
@@ -84,7 +85,8 @@ public class EnemyBehavior : MonoBehaviour
         {
             EnemyShoot();
             RandomMethod(numbersArray, methodsArray);
-            shootTimer += maxShootTimer;
+            shootTimer += maxShootTimer; 
+            shootTimer += UnityEngine.Random.Range(-1f, 1f);
         }
 
         bullet.transform.rotation = Quaternion.identity;
